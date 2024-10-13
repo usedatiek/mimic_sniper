@@ -9,8 +9,9 @@ TagManager:
   - UiManager
   - BulletGroup
   - Bullet
-  - PeopleManager
-  - PeopleGroup
+  - AngryIcon
+  - EnemyGroup
+  - Presenter
   layers:
   - Default
   - TransparentFX
