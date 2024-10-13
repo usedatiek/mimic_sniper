@@ -16,8 +16,9 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         // 初期の回転を取得
-        initializeRotationX = myTransform.eulerAngles.y;
-        initializeRotationY = myTransform.eulerAngles.x;
+        Vector3 eulerAngles = myTransform.eulerAngles;
+        initializeRotationX = eulerAngles.y;
+        initializeRotationY = eulerAngles.x;
         rotationX = initializeRotationX;
         rotationY = initializeRotationY;
 

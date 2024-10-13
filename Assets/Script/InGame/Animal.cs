@@ -6,14 +6,19 @@ using UnityEngine;
 public class Animal : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particleSystem;
-    static private bool isEnd;
+    private bool isEnd;
+    private RectTransform angryIconTransform;
+
+    private void Start()
+    {
+        angryIconTransform = GameObject.FindWithTag("AngryIcon").GetComponent<RectTransform>();
+    }
 
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Bullet") && !isEnd)
         {
             isEnd = true;
-            RectTransform angryIconTransform = GameObject.FindWithTag("AngryIcon").GetComponent<RectTransform>();
 
             _particleSystem.Play();
 

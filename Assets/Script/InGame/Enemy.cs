@@ -10,9 +10,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Walk walk;
-    [SerializeField] private GameObject peopleGameObject;
+    [SerializeField] private Transform enemyGroupTransform, enemyTransform;
 
     private bool isEnd;
+    private OutGameUIPresenter outGameUIPresenter;
+
+    private void Start()
+    {
+        outGameUIPresenter = GameObject.FindWithTag("Presenter").GetComponent<OutGameUIPresenter>();
+    }
 
     private void OnTriggerEnter(Collider col)
     {
@@ -20,12 +26,9 @@ public class Enemy : MonoBehaviour
         {
             isEnd = true;
 
-            GameObject.FindWithTag("Presenter").GetComponent<OutGameUIPresenter>().NumberOfSniperShots();
+            outGameUIPresenter.NumberOfSniperShots();
 
-            Transform peopleGroupTransform = GameObject.FindWithTag("EnemyGroup").gameObject.transform;
-
-            peopleGameObject.transform.parent = peopleGroupTransform;
-
+            enemyTransform.parent = enemyGroupTransform;
 
             if (walk != null)
             {
