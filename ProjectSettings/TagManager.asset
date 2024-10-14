@@ -4,13 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Angle
   - Gun
   - UiManager
   - BulletGroup
   - Bullet
-  - PeopleManager
-  - PeopleGroup
+  - AngryIcon
+  - EnemyGroup
+  - Presenter
+  - Enemy
+  - Animal
+  - GunAngle
   layers:
   - Default
   - TransparentFX
