@@ -12,6 +12,8 @@ TagManager:
   - AngryIcon
   - EnemyGroup
   - Presenter
+  - Enemy
+  - Animal
   layers:
   - Default
   - TransparentFX

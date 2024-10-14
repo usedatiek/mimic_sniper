@@ -20,31 +20,25 @@ public class Enemy : MonoBehaviour
         outGameUIPresenter = GameObject.FindWithTag("Presenter").GetComponent<OutGameUIPresenter>();
     }
 
-    private void OnTriggerEnter(Collider col)
+    public void BulletHit()
     {
-        if (col.CompareTag("Bullet") && !isEnd)
+        outGameUIPresenter.NumberOfSniperShots();
+
+        enemyTransform.parent = enemyGroupTransform;
+
+        if (walk != null)
         {
-            isEnd = true;
-
-            outGameUIPresenter.NumberOfSniperShots();
-
-            enemyTransform.parent = enemyGroupTransform;
-
-            if (walk != null)
-            {
-                walk.enabled = false;
-            }
-
-            col.gameObject.SetActive(false);
-            _particleSystem.Play();
-
-            bodyMeshRender.sharedMaterial = litMaterial;
-            if (jacketMeshRender != null) jacketMeshRender.sharedMaterial = litMaterial;
-            if (pantsMeshRender != null) pantsMeshRender.sharedMaterial = litMaterial;
-
-            animator.enabled = false;
-
-            _rigidbody.AddForce((Vector3.up + Vector3.back) * 1000, ForceMode.Acceleration);
+            walk.enabled = false;
         }
+
+        _particleSystem.Play();
+
+        bodyMeshRender.sharedMaterial = litMaterial;
+        if (jacketMeshRender != null) jacketMeshRender.sharedMaterial = litMaterial;
+        if (pantsMeshRender != null) pantsMeshRender.sharedMaterial = litMaterial;
+
+        animator.enabled = false;
+
+        _rigidbody.AddForce((Vector3.up + Vector3.back) * 1000, ForceMode.Acceleration);
     }
 }
