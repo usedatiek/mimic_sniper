@@ -38,9 +38,9 @@ public class Enemy : MonoBehaviour
             col.gameObject.SetActive(false);
             _particleSystem.Play();
 
-            bodyMeshRender.material = litMaterial;
-            if (jacketMeshRender != null) jacketMeshRender.material = litMaterial;
-            if (pantsMeshRender != null) pantsMeshRender.material = litMaterial;
+            bodyMeshRender.sharedMaterial = litMaterial;
+            if (jacketMeshRender != null) jacketMeshRender.sharedMaterial = litMaterial;
+            if (pantsMeshRender != null) pantsMeshRender.sharedMaterial = litMaterial;
 
             animator.enabled = false;
 
