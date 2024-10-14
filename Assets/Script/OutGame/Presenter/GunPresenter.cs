@@ -8,17 +8,16 @@ public class GunPresenter : MonoBehaviour
     [SerializeField] private InGameUIView inGameUIView;
     private CameraController cameraController;
     private CameraChange cameraChange;
-    private GameObject angle;
     private Gun gun;
 
     public void GunZoomIn()
     {
-        GameObject angle = GameObject.FindWithTag("Angle");
-        cameraChange = angle.GetComponent<CameraChange>();
-        cameraController = angle.GetComponent<CameraController>();
+        GameObject gunAngle = GameObject.FindWithTag("GunAngle");
+        cameraChange = gunAngle.GetComponent<CameraChange>();
+        cameraController = gunAngle.GetComponent<CameraController>();
         gun = GameObject.FindWithTag("Gun").GetComponent<Gun>();
 
-        cameraChange = angle.GetComponent<CameraChange>();
+        cameraChange = gunAngle.GetComponent<CameraChange>();
 
         cameraChange.ZoomIn();
         inGameUIView.GunZoomIn();

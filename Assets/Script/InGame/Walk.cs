@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Walk : MonoBehaviour
 {
-    [SerializeField] private Transform _transform;
+    [SerializeField] private Transform myTransfrom;
     [SerializeField] private int distance, time;
 
     private void Start()
     {
-        Vector3 destination = _transform.position + _transform.forward * distance;
-        _transform.DOMove(destination, time);
+        Vector3 destination = myTransfrom.position + myTransfrom.forward * distance;
+        myTransfrom.DOMove(destination, time);
     }
 }

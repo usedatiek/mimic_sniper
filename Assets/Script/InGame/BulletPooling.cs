@@ -6,9 +6,9 @@ public class BulletPooling : MonoBehaviour
 {
     private List<GameObject> bulletList;
     private Transform bulletGroupTransform;
-    private int maximumNumberOfPools, bulletCount;
-    private int initBulletCount = 0;
-    private int indexation = 1;
+    private int maximumNumberOfPools, bulletIndex;
+    private const int resetBulletIndex = 0;
+    private const int indexation = 1;
 
     private void Start()
     {
@@ -24,15 +24,15 @@ public class BulletPooling : MonoBehaviour
 
     public GameObject GetBullets()
     {
-        GameObject bullet = bulletList[bulletCount];
+        GameObject bullet = bulletList[bulletIndex];
 
-        if (bulletCount >= maximumNumberOfPools)
+        if (bulletIndex >= maximumNumberOfPools)
         {
-            bulletCount = initBulletCount;
+            bulletIndex = resetBulletIndex;
         }
         else
         {
-            bulletCount += 1;
+            bulletIndex += 1;
         }
 
         return bullet;

@@ -5,9 +5,16 @@ using UnityEngine;
 
 public class Animal : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private ParticleSystem effect;
     private bool isAnimationEnd;
     private RectTransform angryIconTransform;
+
+    private const float scaleSize = 1;
+    private const float scaleSpeed = 0.8f;
+    private const float rotationSpeed = 0.2f;
+    private const int scaleLoopCount = 2;
+    private const int rotationLoopCount = 4;
+    private Vector3 angleOfRotation { get { return new Vector3(0, 0, -15); } }
 
     private void Start()
     {
@@ -17,18 +24,17 @@ public class Animal : MonoBehaviour
 
     public void BulletHit()
     {
-        _particleSystem.Play();
-
         if (isAnimationEnd)
         {
             isAnimationEnd = false;
 
-            angryIconTransform.DOScale(1f, 0.8f).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+            effect.Play();
+
+            angryIconTransform.DOLocalRotate(angleOfRotation, rotationSpeed).SetLoops(rotationLoopCount, LoopType.Yoyo).SetEase(Ease.Linear);
+            angryIconTransform.DOScale(scaleSize, scaleSpeed).SetLoops(scaleLoopCount, LoopType.Yoyo).OnComplete(() =>
             {
                 isAnimationEnd = true;
             });
         }
-
-        angryIconTransform.DOLocalRotate(new Vector3(0, 0, -15), 0.2f).SetLoops(4, LoopType.Yoyo).SetEase(Ease.Linear);
     }
 }

@@ -6,12 +6,20 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float sensitivity; // マウスの感度
     [SerializeField] private float rotationSpeed; // 回転のスピード
     [SerializeField] private Transform myTransform;
-
+    private Quaternion initializeRotation;
     private float rotationX = 0.0f;
     private float initializeRotationX = 0.0f;
     private float initializeRotationY = 0.0f;
     private float rotationY = 0.0f;
-    private Quaternion initializeRotation;
+
+    private const float rightVector = 0.7f;
+    private const float leftVector = 0.7f;
+    private const float upVector = 0.2f;
+    private const float downVector = 0.2f;
+    private const float rightSpeed = 0.5f;
+    private const float leftSpeed = 0.08f;
+    private const float upSpeed = 0.08f;
+    private const float downSpeed = 0.5f;
 
     void Start()
     {
@@ -59,11 +67,11 @@ public class CameraController : MonoBehaviour
     public void ShootReaction()
     {
         DOTween.Sequence()
-        .Append(myTransform.DOBlendableRotateBy(Vector3.left * 0.7f, 0.08f))
-        .Append(myTransform.DOBlendableRotateBy(Vector3.right * 0.7f, 0.5f).SetEase(Ease.Linear));
+        .Append(myTransform.DOBlendableRotateBy(Vector3.left * rightVector, leftSpeed))
+        .Append(myTransform.DOBlendableRotateBy(Vector3.right * leftVector, rightSpeed).SetEase(Ease.Linear));
 
         DOTween.Sequence()
-       .Append(myTransform.DOBlendableRotateBy(Vector3.up * 0.2f, 0.08f))
-       .Append(myTransform.DOBlendableRotateBy(Vector3.down * 0.2f, 0.5f).SetEase(Ease.Linear));
+       .Append(myTransform.DOBlendableRotateBy(Vector3.up * upVector, upSpeed))
+       .Append(myTransform.DOBlendableRotateBy(Vector3.down * downVector, downSpeed).SetEase(Ease.Linear));
     }
 }
