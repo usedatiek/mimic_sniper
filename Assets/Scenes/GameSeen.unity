@@ -544,6 +544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageView: {fileID: 1592734723}
   stageModel: {fileID: 1270080878}
+  gunPresenter: {fileID: 223206119}
 --- !u!114 &223206118
 MonoBehaviour:
   m_ObjectHideFlags: 0
