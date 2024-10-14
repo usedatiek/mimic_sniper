@@ -10,6 +10,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private BulletPooling bulletPooling;
 
+    private const int force = 30000;
+
     public void Shoot()
     {
         GameObject bullet = bulletPooling.GetBullets();
@@ -20,7 +22,7 @@ public class Gun : MonoBehaviour
         bulletTransform.rotation = angleTransform.rotation;
 
         Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
-        rigidbody.AddForce((angleTransform.forward * 30000), ForceMode.Acceleration);
+        rigidbody.AddForce((angleTransform.forward * force), ForceMode.Acceleration);
 
         DOVirtual.DelayedCall(1f, () =>
         {
@@ -30,6 +32,6 @@ public class Gun : MonoBehaviour
 
     public void Animation()
     {
-        animator.Play("ShootAndBolt", 0, 0);
+        animator.Play(stateName: "ShootAndBolt", layer: 0, normalizedTime: 0);
     }
 }

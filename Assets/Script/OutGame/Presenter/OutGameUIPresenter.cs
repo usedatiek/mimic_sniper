@@ -7,11 +7,6 @@ public class OutGameUIPresenter : MonoBehaviour
     [SerializeField] private OutGameUIModel outGameUIModel;
     [SerializeField] private OutGameUIView outGameUIView;
 
-    public void OnPrivacyPolicy()
-    {
-        outGameUIModel.OnPrivacyPolicy();
-    }
-
     public void NumberOfSniperShots()
     {
         bool isGameClear = outGameUIModel.NumberOfSniperShots();

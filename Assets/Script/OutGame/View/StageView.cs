@@ -13,7 +13,7 @@ public class StageView : MonoBehaviour
     private readonly IntReactiveProperty _currentStageNum = new IntReactiveProperty(0);
 
 
-    private int resetStageNum = 0;
+    private const int resetStageNum = 0;
     private GameObject currentStage;
 
     public void Initialization(int levelNum, int stageNum)

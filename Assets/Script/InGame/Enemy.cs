@@ -8,12 +8,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Material litMaterial;
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private ParticleSystem effect;
     [SerializeField] private Walk walk;
     [SerializeField] private Transform enemyGroupTransform, enemyTransform;
-
-    private bool isEnd;
     private OutGameUIPresenter outGameUIPresenter;
+
+    private const int force = 1000;
 
     private void Start()
     {
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
             walk.enabled = false;
         }
 
-        _particleSystem.Play();
+        effect.Play();
 
         bodyMeshRender.sharedMaterial = litMaterial;
         if (jacketMeshRender != null) jacketMeshRender.sharedMaterial = litMaterial;
@@ -39,6 +39,6 @@ public class Enemy : MonoBehaviour
 
         animator.enabled = false;
 
-        _rigidbody.AddForce((Vector3.up + Vector3.back) * 1000, ForceMode.Acceleration);
+        _rigidbody.AddForce((Vector3.up + Vector3.back) * force, ForceMode.Acceleration);
     }
 }

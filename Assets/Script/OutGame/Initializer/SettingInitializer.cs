@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SettingInitializer : MonoBehaviour
 {
+    private const int fpsLimit = 60;
+    
     void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = fpsLimit;
     }
 }
