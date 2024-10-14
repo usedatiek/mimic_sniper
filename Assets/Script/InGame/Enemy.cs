@@ -10,38 +10,35 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Walk walk;
-    [SerializeField] private GameObject peopleGameObject;
+    [SerializeField] private Transform enemyGroupTransform, enemyTransform;
 
     private bool isEnd;
+    private OutGameUIPresenter outGameUIPresenter;
 
-    private void OnTriggerEnter(Collider col)
+    private void Start()
     {
-        if (col.CompareTag("Bullet") && !isEnd)
+        outGameUIPresenter = GameObject.FindWithTag("Presenter").GetComponent<OutGameUIPresenter>();
+    }
+
+    public void BulletHit()
+    {
+        outGameUIPresenter.NumberOfSniperShots();
+
+        enemyTransform.parent = enemyGroupTransform;
+
+        if (walk != null)
         {
-            isEnd = true;
-
-            GameObject.FindWithTag("Presenter").GetComponent<OutGameUIPresenter>().NumberOfSniperShots();
-
-            Transform peopleGroupTransform = GameObject.FindWithTag("EnemyGroup").gameObject.transform;
-
-            peopleGameObject.transform.parent = peopleGroupTransform;
-
-
-            if (walk != null)
-            {
-                walk.enabled = false;
-            }
-
-            col.gameObject.SetActive(false);
-            _particleSystem.Play();
-
-            bodyMeshRender.material = litMaterial;
-            if (jacketMeshRender != null) jacketMeshRender.material = litMaterial;
-            if (pantsMeshRender != null) pantsMeshRender.material = litMaterial;
-
-            animator.enabled = false;
-
-            _rigidbody.AddForce((Vector3.up + Vector3.back) * 1000, ForceMode.Acceleration);
+            walk.enabled = false;
         }
+
+        _particleSystem.Play();
+
+        bodyMeshRender.sharedMaterial = litMaterial;
+        if (jacketMeshRender != null) jacketMeshRender.sharedMaterial = litMaterial;
+        if (pantsMeshRender != null) pantsMeshRender.sharedMaterial = litMaterial;
+
+        animator.enabled = false;
+
+        _rigidbody.AddForce((Vector3.up + Vector3.back) * 1000, ForceMode.Acceleration);
     }
 }

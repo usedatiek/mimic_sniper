@@ -6,21 +6,26 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-
-    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform angleTransform;
     [SerializeField] private Animator animator;
+    [SerializeField] private BulletPooling bulletPooling;
 
     public void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab);
-        bullet.transform.position = angleTransform.position;
-        GameObject bulletGroup = GameObject.FindWithTag("BulletGroup");
-        bullet.transform.parent = bulletGroup.transform;
-        bullet.transform.rotation = angleTransform.rotation;
+        GameObject bullet = bulletPooling.GetBullets();
+
+        Transform bulletTransform = bullet.transform;
+
+        bulletTransform.position = angleTransform.position;
+        bulletTransform.rotation = angleTransform.rotation;
 
         Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
         rigidbody.AddForce((angleTransform.forward * 30000), ForceMode.Acceleration);
+
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            bullet.GetComponent<Bullet>().BulletInitialization();
+        }, false);
     }
 
     public void Animation()

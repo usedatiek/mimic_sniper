@@ -6,22 +6,29 @@ using UnityEngine;
 public class Animal : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particleSystem;
-    static private bool isEnd;
+    private bool isAnimationEnd;
+    private RectTransform angryIconTransform;
 
-    private void OnTriggerEnter(Collider col)
+    private void Start()
     {
-        if (col.CompareTag("Bullet") && !isEnd)
-        {
-            isEnd = true;
-            RectTransform angryIconTransform = GameObject.FindWithTag("AngryIcon").GetComponent<RectTransform>();
+        angryIconTransform = GameObject.FindWithTag("AngryIcon").GetComponent<RectTransform>();
+        isAnimationEnd = true;
+    }
 
-            _particleSystem.Play();
+    public void BulletHit()
+    {
+        _particleSystem.Play();
+
+        if (isAnimationEnd)
+        {
+            isAnimationEnd = false;
 
             angryIconTransform.DOScale(1f, 0.8f).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
             {
-                isEnd = false;
+                isAnimationEnd = true;
             });
-            angryIconTransform.DOLocalRotate(new Vector3(0, 0, -15), 0.2f).SetLoops(4, LoopType.Yoyo).SetEase(Ease.Linear);
         }
+
+        angryIconTransform.DOLocalRotate(new Vector3(0, 0, -15), 0.2f).SetLoops(4, LoopType.Yoyo).SetEase(Ease.Linear);
     }
 }

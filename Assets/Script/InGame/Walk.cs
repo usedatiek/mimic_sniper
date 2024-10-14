@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Walk : MonoBehaviour
 {
     [SerializeField] private Transform _transform;
-    [SerializeField] private float _speed = 0.01f;
+    [SerializeField] private int distance, time;
 
-    void Update()
+    private void Start()
     {
-        _transform.position += _transform.forward * _speed;
+        Vector3 destination = _transform.position + _transform.forward * distance;
+        _transform.DOMove(destination, time);
     }
 }
