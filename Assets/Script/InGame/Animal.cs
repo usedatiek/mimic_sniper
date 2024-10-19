@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+
 
 public class Animal : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class Animal : MonoBehaviour
         isAnimationEnd = true;
     }
 
-    public void BulletHit()
+    public async void BulletHit()
     {
         if (isAnimationEnd)
         {
@@ -30,11 +30,12 @@ public class Animal : MonoBehaviour
 
             effect.Play();
 
-            angryIconTransform.DOLocalRotate(angleOfRotation, rotationSpeed).SetLoops(rotationLoopCount, LoopType.Yoyo).SetEase(Ease.Linear);
-            angryIconTransform.DOScale(scaleSize, scaleSpeed).SetLoops(scaleLoopCount, LoopType.Yoyo).OnComplete(() =>
-            {
-                isAnimationEnd = true;
-            });
+            var anim1 = angryIconTransform.DOLocalRotate(angleOfRotation, rotationSpeed).SetLoops(rotationLoopCount, LoopType.Yoyo).SetEase(Ease.Linear).WithCancellation(this.GetCancellationTokenOnDestroy());
+            var anim2 = angryIconTransform.DOScale(scaleSize, scaleSpeed).SetLoops(scaleLoopCount, LoopType.Yoyo).WithCancellation(this.GetCancellationTokenOnDestroy());
+
+            // キャンセル処理があってもその後の処理は変わらず実行してほしいのでbool型の変数で条件分岐はしない。
+            await UniTask.WhenAll(anim1, anim2).SuppressCancellationThrow();
+            isAnimationEnd = true;
         }
     }
 }

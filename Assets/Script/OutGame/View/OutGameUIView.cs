@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -33,21 +33,22 @@ public class OutGameUIView : MonoBehaviour
         canvas.enabled = false;
     }
 
-    public void OnGameClearUi()
+    public async void OnGameClearUi()
     {
-        DOVirtual.DelayedCall(1.5f, () =>
-        {
-            DOTween.Sequence()
-            .Append(clearCanvas.DOScale(firstScaleSize, scaleSpeed))
-            .Append(clearCanvas.DOScale(secondScaleSize, scaleSpeed))
-            .Append(clearCanvas.DOScale(thirdScaleSize, scaleSpeed));
+        // キャンセル処理があってもその後の処理は変わらず実行してほしいのでbool型の変数で条件分岐はしない。
 
-            liteImage.DOLocalRotate(Vector3.forward * forwardVector, rotationSpeed, RotateMode.FastBeyond360)
-            .SetEase(Ease.Linear)
-            .SetLoops(-1, LoopType.Restart);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: this.GetCancellationTokenOnDestroy()).SuppressCancellationThrow();
 
-            nextButton.DOScale(buttonScaleSize, buttonScaleSpeed).SetDelay(1.5f);
-        }, false);
+        DOTween.Sequence()
+        .Append(clearCanvas.DOScale(firstScaleSize, scaleSpeed))
+        .Append(clearCanvas.DOScale(secondScaleSize, scaleSpeed))
+        .Append(clearCanvas.DOScale(thirdScaleSize, scaleSpeed));
+
+        liteImage.DOLocalRotate(Vector3.forward * forwardVector, rotationSpeed, RotateMode.FastBeyond360)
+        .SetEase(Ease.Linear)
+        .SetLoops(-1, LoopType.Restart);
+
+        nextButton.DOScale(buttonScaleSize, buttonScaleSpeed).SetDelay(1.5f);
     }
 
     public void OffGameClearUi()

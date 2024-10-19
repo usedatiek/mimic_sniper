@@ -1,5 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class Gun : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class Gun : MonoBehaviour
 
     private const int force = 30000;
 
-    public void Shoot()
+    public async void Shoot()
     {
         GameObject bullet = bulletPooling.GetBullets();
 
@@ -21,10 +23,10 @@ public class Gun : MonoBehaviour
         Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
         rigidbody.AddForce((angleTransform.forward * force), ForceMode.Acceleration);
 
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            bullet.GetComponent<Bullet>().BulletInitialization();
-        }, false);
+
+        // キャンセル処理があってもその後の処理は変わらず実行してほしいのでbool型の変数で条件分岐はしない。
+        await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: this.GetCancellationTokenOnDestroy()).SuppressCancellationThrow();
+        bullet.GetComponent<Bullet>().BulletInitialization();
     }
 
     public void Animation()
