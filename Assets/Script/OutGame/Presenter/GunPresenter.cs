@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
-
+using Cysharp.Threading.Tasks;
+using System;
 
 public class GunPresenter : MonoBehaviour
 {
@@ -40,17 +41,17 @@ public class GunPresenter : MonoBehaviour
         GunZoomOut();
     }
 
-    private void GunZoomOut()
+    private async void GunZoomOut()
     {
         isReload = true;
-        // 数秒してからUIとカメラの変更
-        DOVirtual.DelayedCall(1.5f, () =>
-        {
-            cameraController.InitializeCameraAngle();
-            cameraChange.ZoomOut();
-            inGameUIView.GunZoomOut();
-            gun.Animation();
-            isReload = false;
-        }, false);
+
+        // キャンセル処理があってもその後の処理は変わらず実行してほしいのでbool型の変数で条件分岐はしない。
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: this.GetCancellationTokenOnDestroy()).SuppressCancellationThrow();
+
+        cameraController.InitializeCameraAngle();
+        cameraChange.ZoomOut();
+        inGameUIView.GunZoomOut();
+        gun.Animation();
+        isReload = false;
     }
 }
